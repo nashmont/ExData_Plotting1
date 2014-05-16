@@ -1,0 +1,10 @@
+install.packages("sqldf")
+library(sqldf)
+mySql <- "SELECT * from file WHERE Date = '1/2/2007' OR Date = '2/2/2007'"
+myData <- read.csv2.sql("household_power_consumption.txt",mySql)
+DateTime<-paste(myData$Date,myData$Time)
+SDateTime<-strptime(DateTime,"%d/%m/%Y %H:%M:%S")
+SSDateTime<-as.POSIXct(SDateTime)
+plot(myData$Global_active_power~SSDateTime,ylab="global active power",xlab="",type="l")
+dev.copy(png, file="plot2.png",width=480,height=480)
+dev.off()
